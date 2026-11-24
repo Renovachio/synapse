@@ -6,6 +6,7 @@ import { projectIdOf, projectRoot } from '../lib/project.mjs'
 import { buildPack } from '../lib/pack.mjs'
 import { consolidate } from '../lib/consolidate.mjs'
 import { acceptRun, discardRun, finishRun, reviewRun, startRun } from '../lib/run.mjs'
+import { analyze, approve, apply, flag, listProposals, reject, revert } from '../lib/improve.mjs'
 
 const [cmd, sub, ...rest] = process.argv.slice(2)
 const root = projectRoot()
@@ -30,6 +31,17 @@ try {
       out(`${sub}d ${r.id}`)
     } else if (sub === 'consolidate') out(consolidate(store, pid))
     else throw new Error('memory list|search <q>|remember <type> <text>|approve <id>|forget <id>|consolidate')
+  } else if (cmd === 'flag') {
+    flag(store, { projectId: pid, recordId: sub, reason: rest.join(' ') || 'wrong' })
+    out(`flagged ${sub}`)
+  } else if (cmd === 'improve') {
+    if (sub === 'analyze') out(analyze(store, pid))
+    else if (sub === 'list') out(listProposals(store, pid).map((p) => `${p.id}  ${p.kind}  ${p.status}  ${p.from_value ?? ''} -> ${p.to_value ?? ''}`).join('\n') || 'none')
+    else if (sub === 'approve') out(approve(store, { projectId: pid, id: rest[0] }))
+    else if (sub === 'reject') out(reject(store, { projectId: pid, id: rest[0] }))
+    else if (sub === 'apply') out(apply(store, { projectId: pid, id: rest[0] }))
+    else if (sub === 'revert') out(revert(store, { projectId: pid, id: rest[0] }))
+    else throw new Error('improve analyze|list|approve <id>|reject <id>|apply <id>|revert <id>')
   } else if (cmd === 'pack') {
     out(buildPack(store, { projectId: pid, prompt: [sub, ...rest].join(' ') }))
   } else if (cmd === 'plan' && sub === 'accept') {
@@ -43,7 +55,7 @@ try {
   } else if (cmd === 'discard') {
     out(discardRun(store, { projectId: pid, digest: sub }))
   } else {
-    out('usage: synapse memory|pack|plan accept <file>|plan status|finish|accept <digest>|discard <digest>')
+    out('usage: synapse memory|flag <id> [reason]|improve ...|pack|plan accept <file>|plan status|finish|accept <digest>|discard <digest>')
   }
 } catch (e) {
   console.error(e.message)

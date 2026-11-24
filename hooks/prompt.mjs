@@ -3,6 +3,7 @@
 import { openStore, synapseHome } from '../lib/db.mjs'
 import { projectIdOf, projectRoot, readInput, silenced } from '../lib/project.mjs'
 import { cachedPack } from '../lib/pack.mjs'
+import { budgetFor } from '../lib/improve.mjs'
 import { join } from 'node:path'
 
 try {
@@ -10,8 +11,8 @@ try {
     const input = readInput()
     const root = projectRoot(input)
     const store = openStore(join(synapseHome(), 'brain.sqlite'))
-    const budget = Number(process.env.SYNAPSE_BUDGET) || 1200
-    const pack = cachedPack(store, { projectId: projectIdOf(root), prompt: input.prompt ?? '', budget }, input.session_id)
+    const projectId = projectIdOf(root)
+    const pack = cachedPack(store, { projectId, prompt: input.prompt ?? '', budget: budgetFor(store, projectId) }, input.session_id)
     store.close()
     if (pack.text) {
       process.stdout.write(
