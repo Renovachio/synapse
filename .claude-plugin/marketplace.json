@@ -1,0 +1,12 @@
+{
+  "name": "synapse",
+  "owner": { "name": "Renovachio" },
+  "description": "Synapse: a memory brain for Claude Code.",
+  "plugins": [
+    {
+      "name": "synapse",
+      "source": "./",
+      "description": "One memory brain for Claude Code: token-budgeted recall, plan-scoped safe runs, human-gated improvement."
+    }
+  ]
+}

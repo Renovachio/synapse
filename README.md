@@ -2,6 +2,26 @@
 
 A Claude Code plugin with one memory brain. It stores typed, scoped records in one local SQLite file, and each prompt gets only the few records that fit a token budget, cited and labelled as data. Plans run with a snapshot, a write guard that denies writes outside the plan, and a digest-bound accept or discard.
 
+## Install
+Requires Node 22.5 or newer and Claude Code 2.1.275 or newer.
+
+**From GitHub (for new users):**
+```sh
+claude plugin marketplace add Renovachio/synapse
+claude plugin install synapse@synapse
+```
+
+**From a clone (for development):**
+```sh
+git clone https://github.com/Renovachio/synapse.git
+cd synapse
+claude plugin marketplace add "$PWD"
+claude plugin install synapse@synapse
+```
+
+Then check with `claude plugin details synapse@synapse` and start a new Claude Code session so the hooks load.
+Remove it with `claude plugin uninstall synapse@synapse` and `claude plugin marketplace remove synapse`.
+
 ## Use
 - `/synapse:memory list | search <q> | remember <type> <text> | approve <id> | forget <id> | consolidate`
 - `/synapse:plan <request>`: writes a plan with model tiers and declared paths; runs only after you say yes
