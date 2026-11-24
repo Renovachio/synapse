@@ -1,0 +1,13 @@
+{
+  "name": "synapse",
+  "version": "0.1.0",
+  "description": "One memory brain for Claude Code: typed, indexed records recalled within a token budget, plus plan-scoped runs with snapshot, write guard and digest-bound accept or discard.",
+  "keywords": [
+    "memory",
+    "tokens",
+    "plan",
+    "guard",
+    "snapshot"
+  ],
+  "license": "MIT"
+}
