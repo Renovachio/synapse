@@ -5,22 +5,21 @@ A Claude Code plugin with one memory brain. It stores typed, scoped records in o
 ## Install
 Requires Node 22.5 or newer and Claude Code 2.1.275 or newer.
 
-**From GitHub (for new users):**
+**Easiest: the setup script.** It asks where to install (this project or every project) and from where (GitHub or this clone):
+```sh
+git clone https://github.com/Renovachio/synapse.git
+cd synapse
+make setup
+```
+Other targets: `make status`, `make remove`, `make check` (tests and plugin validation). Presets skip the questions: `make setup SCOPE=user FROM=github`.
+
+**By hand, from GitHub:**
 ```sh
 claude plugin marketplace add Renovachio/synapse
 claude plugin install synapse@synapse
 ```
 
-**From a clone (for development):**
-```sh
-git clone https://github.com/Renovachio/synapse.git
-cd synapse
-claude plugin marketplace add "$PWD"
-claude plugin install synapse@synapse
-```
-
-Then check with `claude plugin details synapse@synapse` and start a new Claude Code session so the hooks load.
-Remove it with `claude plugin uninstall synapse@synapse` and `claude plugin marketplace remove synapse`.
+Start a new Claude Code session after installing so the hooks load.
 
 ## Use
 - `/synapse:memory list | search <q> | remember <type> <text> | approve <id> | forget <id> | consolidate`
